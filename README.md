@@ -28,7 +28,6 @@ This list is organized by the type of geometric prior used. Contributions are al
   - [3.1. Geometry-Aware & Structure-Preserving](#31-geometry-aware--structure-preserving)
   - [3.2. Hamiltonian, Symplectic, and Lie Group VAEs](#32-hamiltonian-symplectic-and-lie-group-vaes)
 - [4. Foundational Papers & Concepts](#4-foundational-papers--concepts)
-- [5. Contributing](#5-contributing)
 
 ---
 
@@ -110,10 +109,3 @@ This list is organized by the type of geometric prior used. Contributions are al
 - **[The information bottleneck method](https://arxiv.org/pdf/physics/0004057.pdf)**. *Naftali Tishby, Fernando C. Pereira, William Bialek*. (2000).
   - **Why it matters**: Provides the core theoretical principle behind many representation learning objectives, framing learning as a trade-off between compression and prediction.
 
----
-
-## 5. Contributing
-
-Contributions are always welcome! Please read the [contribution guidelines](CONTRIBUTING.md) first.
-
-If you have any suggestions or find a paper that should be included, please feel free to open an issue or submit a pull request.

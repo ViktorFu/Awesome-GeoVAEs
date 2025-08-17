@@ -24,7 +24,7 @@ This list is organized by the type of geometric prior used. Contributions are we
 
 ---
 
-## 1. Hyperbolic VAEs
+## 1. Hyperbolic VAEs (双曲VAE)
 
 - **Core Idea**: Models the latent space as hyperbolic space with negative curvature. Since the volume of hyperbolic space grows exponentially with radius, it can efficiently embed tree-like or hierarchical structures.
 - **Advantages**: Efficiently embeds hierarchical structures, provides continuous hierarchical representation, avoids "crowding" of leaf nodes in the embedding space.
@@ -38,9 +38,9 @@ This list is organized by the type of geometric prior used. Contributions are we
 
 ---
 
-## 2. Hyperspherical VAEs
+## 2. Hyperspherical VAEs (超球面VAE)
 
-- **Core Idea**: Constrains the latent space to the unit hypersphere, forcing all latent vectors to have L2 norm of 1. The model learns the "direction" of the data rather than its "magnitude." This is typically implemented via the von Mises-Fisher (vMF) distribution.
+- **Core Idea**: Constrains the latent space to the unit hypersphere, forcing all latent vectors to have an L2 norm of 1. The model learns the "direction" of the data rather than its "magnitude." This is typically implemented via the von Mises-Fisher (vMF) distribution.
 - **Advantages**: Focuses on direction rather than length, effectively mitigates posterior collapse, naturally suited for directional data.
 - **Suitable Data Types**: **Directional data where angular relationships matter** (such as text embeddings, gene expression profiles, image styles).
 
@@ -52,14 +52,35 @@ This list is organized by the type of geometric prior used. Contributions are we
 
 ---
 
-## 3. General Manifold VAEs
+## 3. General Manifold VAEs (通用流形VAE)
 
 - **Core Idea**: Does not assume a specific geometric shape, but rather assumes the latent space is a general, curved Riemannian manifold. The model aims to learn this manifold's intrinsic geometric structure directly from the data.
 - **Advantages**: Highly flexible, can capture complex intrinsic structures, interpolation along the manifold's geodesics can generate smoother, more realistic transition samples.
 - **Suitable Data Types**: **Complex data with continuous, non-linear variations** (such as physical system simulations, robot movements, object pose variations, disease progression in medical imaging).
 
-### Papers
+### 3.1. Geometry-Aware & Structure-Preserving
 
 - **[Variational autoencoders with Riemannian brownian motion priors](https://arxiv.org/pdf/2002.05227.pdf)**. *Dimitris Kalatzis, David Eklund, Georgios Arvanitidis, Søren Hauberg*. (ICML 2020).
 - **[Geometrically enriched latent spaces](https://arxiv.org/pdf/2008.00565.pdf)**. *Georgios Arvanitidis, Søren Hauberg, Bernhard Schölkopf*. (ICML 2020 Workshop).
 - **[Data Generation in Low Sample Size Setting Using Manifold Sampling and a Geometry-Aware VAE](https://arxiv.org/pdf/2103.13751.pdf)**. *Clément Chadebec, Stéphanie Allassonnière*. (MICCAI 2021).
+- **[Neighborhood Geometric Structure-Preserving Variational Autoencoder for Smooth and Bounded Data Sources](https://pubmed.ncbi.nlm.nih.gov/33556022/)**. *Ruixuan Chen, et al*. (IEEE TNNLS 2021).
+- **[NeRF-VAE: A Geometry Aware 3D Scene Generative Model](https://arxiv.org/pdf/2104.00587.pdf)**. *Adam Kosiorek, et al*. (ICML 2021).
+- **[Geometric disentanglement for generative latent shape models](https://arxiv.org/pdf/1908.06386.pdf)**. *Tristan Aumentado-Armstrong, et al*. (ICCV 2019).
+- **[Learning flat latent manifolds with VAEs](https://arxiv.org/pdf/2002.04881.pdf)**. *Yannik Checker, et al*. (ICLR 2020).
+- **[Learning to disentangle factors of variation with manifold interaction](http://proceedings.mlr.press/v32/reed14.pdf)**. *Scott Reed, et al*. (ICML 2014).
+
+### 3.2. Hamiltonian, Symplectic, and Lie Group VAEs
+
+- **[Hamiltonian variational auto-encoder](https://arxiv.org/pdf/1805.11328.pdf)**. *Anthony Caterini, Arnaud Doucet, Dino Sejdinovic*. (NeurIPS 2018).
+- **[Geometry-aware Hamiltonian variational autoe-encoder](https://arxiv.org/pdf/2010.11518.pdf)**. *Clément Chadebec, et al*. (AISTATS 2021).
+- **[Quasi-symplectic Langevin variational autoencoder](https://arxiv.org/pdf/2009.01675.pdf)**. *Ya-Ping Wang, Nicholas Ayache, Hervé Delingette*. (2020).
+- **[Reparameterizing distributions on Lie groups](https://arxiv.org/pdf/1903.02958.pdf)**. *Luca Falorsi, et al*. (AISTATS 2019).
+
+---
+
+## 4. Foundational & Related Concepts (基础与相关概念)
+
+- **[Auto-encoding variational Bayes](https://arxiv.org/pdf/1312.6114.pdf)**. *Diederik P Kingma, Max Welling*. (ICLR 2014). - The original VAE paper.
+- **[beta-VAE: learning basic visual concepts with a constrained variational framework](https://openreview.net/pdf?id=Sy2fzU9gl)**. *Irina Higgins, et al*. (ICLR 2017). - A key paper on disentanglement that motivated the search for better latent structures.
+- **[Variational inference with normalizing flows](https://arxiv.org/pdf/1505.05770.pdf)**. *Danilo Jimenez Rezende, Shakir Mohamed*. (ICML 2015). - Introduces normalizing flows, a technique often combined with geometric priors.
+- **[The information bottleneck method](https://arxiv.org/pdf/physics/0004057.pdf)**. *Naftali Tishby, Fernando C. Pereira, William Bialek*. (2000). - The core theoretical principle behind many representation learning objectives.

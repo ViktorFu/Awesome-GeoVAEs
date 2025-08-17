@@ -1,34 +1,45 @@
 # Awesome-GeoVAEs
 
-<a href="https://github.com/sindresorhus/awesome"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a>
+<a href="https://github.comsindresorhus/awesome"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome"></a>
 
-A curated list of awesome research papers and resources on Variational Autoencoders with Geometric Priors (GeoVAEs).
+A curated list of awesome research papers, code, and resources for **Variational Autoencoders with Geometric Priors (GeoVAEs)**.
 
-**Geometric Priors in VAEs** are a class of techniques that constrain the latent space to a non-Euclidean manifold (e.g., a hypersphere or a hyperbolic space). This inductive bias helps the model learn more meaningful and structured representations that align with the intrinsic geometry of the data.
+Geometric Priors in VAEs are a class of techniques that impose a structural inductive bias on the latent space by constraining it to a **non-Euclidean manifold** (e.g., a hypersphere or a hyperbolic space). Instead of a flat, unstructured latent space, this approach helps the model learn more meaningful representations that naturally align with the intrinsic geometry of the data, leading to better disentanglement, generalization, and sample quality.
 
-This list is organized by the type of geometric prior used. Contributions are welcome!
+This list is organized by the type of geometric prior used. Contributions are always welcome!
 
-## Comparison of Geometric VAE Types
+---
 
-| Geometry Type | Core Idea | Advantages | Suitable Data Types |
-|---------------|-----------|------------|---------------------|
-| **Hyperbolic** | Models latent space as hyperbolic space with negative curvature | Efficiently embeds hierarchical structures, provides continuous hierarchical representation | Tree-structured, hierarchical data (text classification, social networks, bioinformatics) |
-| **Hyperspherical** | Constrains latent space to unit hypersphere | Focuses on direction rather than magnitude, mitigates posterior collapse | Directional data where angular relationships matter (text embeddings, gene expression profiles) |
-| **General Manifold** | Learns a general, curved latent space from data | Highly flexible, captures complex intrinsic structures, generates smooth transitions | Complex data with continuous, non-linear variations (physical systems, pose variations, medical imaging) |
+## Quick Look: Comparison of Geometries
+
+| Geometry Type      | Core Idea                                                    | Key Advantages                                                              | Best For...                                                                                             |
+| ------------------ | ------------------------------------------------------------ | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **Hyperbolic**     | Models the latent space as a negatively curved space.         | **Efficiently embeds hierarchies**; provides continuous tree-like representations. | Tree-structured data (e.g., taxonomies, social networks, file systems, NLP parse trees).                |
+| **Hyperspherical** | Constrains latent vectors to the surface of a unit hypersphere. | **Focuses on direction, not magnitude**; mitigates posterior collapse.      | Directional data where angular relationships matter (e.g., text embeddings, gene expression profiles). |
+| **General Manifold** | Learns a general, curved latent space directly from data.    | **Highly flexible**; captures complex intrinsic structures; generates smooth transitions. | Data with continuous, non-linear variations (e.g., object poses, physical simulations, medical imaging). |
+
+---
 
 ## Contents
 
 - [1. Hyperbolic VAEs](#1-hyperbolic-vaes)
 - [2. Hyperspherical VAEs](#2-hyperspherical-vaes)
 - [3. General Manifold VAEs](#3-general-manifold-vaes)
+  - [3.1. Geometry-Aware & Structure-Preserving](#31-geometry-aware--structure-preserving)
+  - [3.2. Hamiltonian, Symplectic, and Lie Group VAEs](#32-hamiltonian-symplectic-and-lie-group-vaes)
+- [4. Foundational Papers & Concepts](#4-foundational-papers--concepts)
+- [5. Contributing](#5-contributing)
 
 ---
 
-## 1. Hyperbolic VAEs (双曲VAE)
+## 1. Hyperbolic VAEs
 
-- **Core Idea**: Models the latent space as hyperbolic space with negative curvature. Since the volume of hyperbolic space grows exponentially with radius, it can efficiently embed tree-like or hierarchical structures.
-- **Advantages**: Efficiently embeds hierarchical structures, provides continuous hierarchical representation, avoids "crowding" of leaf nodes in the embedding space.
-- **Suitable Data Types**: **Tree-structured, hierarchical data** (such as text classification, social networks, bioinformatics, code structure analysis).
+*   **Analogy**: Think of the latent space as the canopy of a massive tree. There is exponentially more room as you move away from the "trunk" (the origin), making it perfect for representing things that branch out.
+*   **Core Idea**: Models the latent space as a hyperbolic space with constant negative curvature. Since the volume of hyperbolic space grows exponentially with the radius, it can embed tree-like or hierarchical structures with very low distortion and high efficiency.
+*   **Advantages**:
+    *   **Superior Hierarchy Embedding**: Can represent deep hierarchies in very low dimensions.
+    *   **Continuous Representation**: Provides a smooth, continuous representation of discrete tree structures.
+    *   **Avoids Crowding**: Prevents leaf nodes from collapsing onto each other in the embedding space.
 
 ### Papers
 
@@ -38,11 +49,14 @@ This list is organized by the type of geometric prior used. Contributions are we
 
 ---
 
-## 2. Hyperspherical VAEs (超球面VAE)
+## 2. Hyperspherical VAEs
 
-- **Core Idea**: Constrains the latent space to the unit hypersphere, forcing all latent vectors to have an L2 norm of 1. The model learns the "direction" of the data rather than its "magnitude." This is typically implemented via the von Mises-Fisher (vMF) distribution.
-- **Advantages**: Focuses on direction rather than length, effectively mitigates posterior collapse, naturally suited for directional data.
-- **Suitable Data Types**: **Directional data where angular relationships matter** (such as text embeddings, gene expression profiles, image styles).
+*   **Analogy**: Imagine the latent space as the surface of a globe. Every point is defined by its direction (latitude/longitude) from the center, not its distance.
+*   **Core Idea**: Constrains the latent space to the surface of a unit hypersphere, forcing all latent vectors to have an L2 norm of 1. The model learns the "direction" of the data rather than its "magnitude." This is typically implemented using the von Mises-Fisher (vMF) distribution as a prior.
+*   **Advantages**:
+    *   **Directional Focus**: Isolates angular relationships by removing magnitude as a factor of variation.
+    *   **Mitigates Posterior Collapse**: Prevents latent codes from collapsing to the origin, a common VAE failure mode.
+    *   **Natural for Certain Data**: Aligns well with data where normalization is a standard preprocessing step.
 
 ### Papers
 
@@ -52,13 +66,16 @@ This list is organized by the type of geometric prior used. Contributions are we
 
 ---
 
-## 3. General Manifold VAEs (通用流形VAE)
+## 3. General Manifold VAEs
 
-- **Core Idea**: Does not assume a specific geometric shape, but rather assumes the latent space is a general, curved Riemannian manifold. The model aims to learn this manifold's intrinsic geometric structure directly from the data.
-- **Advantages**: Highly flexible, can capture complex intrinsic structures, interpolation along the manifold's geodesics can generate smoother, more realistic transition samples.
-- **Suitable Data Types**: **Complex data with continuous, non-linear variations** (such as physical system simulations, robot movements, object pose variations, disease progression in medical imaging).
+*   **Core Idea**: Assumes the latent space is a general, curved **Riemannian manifold** whose structure is not known beforehand. The model's goal is to learn this manifold's intrinsic geometry (like local curvature and distances) directly from the data.
+*   **Advantages**:
+    *   **Maximum Flexibility**: Adapts to complex and unknown data geometries without being restricted to a fixed curvature.
+    *   **Realistic Interpolation**: Traversing the learned manifold's geodesics (shortest paths) can generate smoother and more realistic transition samples.
 
 ### 3.1. Geometry-Aware & Structure-Preserving
+
+*These models focus on learning the manifold structure implicitly from data or by preserving local relationships.*
 
 - **[Variational autoencoders with Riemannian brownian motion priors](https://arxiv.org/pdf/2002.05227.pdf)**. *Dimitris Kalatzis, David Eklund, Georgios Arvanitidis, Søren Hauberg*. (ICML 2020).
 - **[Geometrically enriched latent spaces](https://arxiv.org/pdf/2008.00565.pdf)**. *Georgios Arvanitidis, Søren Hauberg, Bernhard Schölkopf*. (ICML 2020 Workshop).
@@ -71,6 +88,8 @@ This list is organized by the type of geometric prior used. Contributions are we
 
 ### 3.2. Hamiltonian, Symplectic, and Lie Group VAEs
 
+*These models incorporate priors from advanced mathematics and physics (like energy conservation or group theory) to learn structured latent dynamics.*
+
 - **[Hamiltonian variational auto-encoder](https://arxiv.org/pdf/1805.11328.pdf)**. *Anthony Caterini, Arnaud Doucet, Dino Sejdinovic*. (NeurIPS 2018).
 - **[Geometry-aware Hamiltonian variational autoe-encoder](https://arxiv.org/pdf/2010.11518.pdf)**. *Clément Chadebec, et al*. (AISTATS 2021).
 - **[Quasi-symplectic Langevin variational autoencoder](https://arxiv.org/pdf/2009.01675.pdf)**. *Ya-Ping Wang, Nicholas Ayache, Hervé Delingette*. (2020).
@@ -78,9 +97,23 @@ This list is organized by the type of geometric prior used. Contributions are we
 
 ---
 
-## 4. Foundational & Related Concepts (基础与相关概念)
+## 4. Foundational Papers & Concepts
 
-- **[Auto-encoding variational Bayes](https://arxiv.org/pdf/1312.6114.pdf)**. *Diederik P Kingma, Max Welling*. (ICLR 2014). - The original VAE paper.
-- **[beta-VAE: learning basic visual concepts with a constrained variational framework](https://openreview.net/pdf?id=Sy2fzU9gl)**. *Irina Higgins, et al*. (ICLR 2017). - A key paper on disentanglement that motivated the search for better latent structures.
-- **[Variational inference with normalizing flows](https://arxiv.org/pdf/1505.05770.pdf)**. *Danilo Jimenez Rezende, Shakir Mohamed*. (ICML 2015). - Introduces normalizing flows, a technique often combined with geometric priors.
-- **[The information bottleneck method](https://arxiv.org/pdf/physics/0004057.pdf)**. *Naftali Tishby, Fernando C. Pereira, William Bialek*. (2000). - The core theoretical principle behind many representation learning objectives.
+*Understanding GeoVAEs requires familiarity with the core concepts of VAEs, disentanglement, and flexible generative models.*
+
+- **[Auto-encoding variational Bayes](https://arxiv.org/pdf/1312.6114.pdf)**. *Diederik P Kingma, Max Welling*. (ICLR 2014).
+  - **Why it matters**: The original VAE paper that started it all.
+- **[beta-VAE: learning basic visual concepts with a constrained variational framework](https://openreview.net/pdf?id=Sy2fzU9gl)**. *Irina Higgins, et al*. (ICLR 2017).
+  - **Why it matters**: A key paper on disentanglement that highlighted the importance of a structured latent space, motivating the search for better geometric priors.
+- **[Variational inference with normalizing flows](https://arxiv.org/pdf/1505.05770.pdf)**. *Danilo Jimenez Rezende, Shakir Mohamed*. (ICML 2015).
+  - **Why it matters**: Introduces normalizing flows, a powerful technique for learning flexible probability distributions, often combined with geometric priors to define complex densities on manifolds.
+- **[The information bottleneck method](https://arxiv.org/pdf/physics/0004057.pdf)**. *Naftali Tishby, Fernando C. Pereira, William Bialek*. (2000).
+  - **Why it matters**: Provides the core theoretical principle behind many representation learning objectives, framing learning as a trade-off between compression and prediction.
+
+---
+
+## 5. Contributing
+
+Contributions are always welcome! Please read the [contribution guidelines](CONTRIBUTING.md) first.
+
+If you have any suggestions or find a paper that should be included, please feel free to open an issue or submit a pull request.

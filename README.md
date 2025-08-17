@@ -21,7 +21,6 @@ This list is organized by the type of geometric prior used. Contributions are we
 - [1. Hyperbolic VAEs](#1-hyperbolic-vaes)
 - [2. Hyperspherical VAEs](#2-hyperspherical-vaes)
 - [3. General Manifold VAEs](#3-general-manifold-vaes)
-- [4. Contributing](#4-contributing)
 
 ---
 
@@ -64,11 +63,3 @@ This list is organized by the type of geometric prior used. Contributions are we
 - **[Variational autoencoders with Riemannian brownian motion priors](https://arxiv.org/pdf/2002.05227.pdf)**. *Dimitris Kalatzis, David Eklund, Georgios Arvanitidis, Søren Hauberg*. (ICML 2020).
 - **[Geometrically enriched latent spaces](https://arxiv.org/pdf/2008.00565.pdf)**. *Georgios Arvanitidis, Søren Hauberg, Bernhard Schölkopf*. (ICML 2020 Workshop).
 - **[Data Generation in Low Sample Size Setting Using Manifold Sampling and a Geometry-Aware VAE](https://arxiv.org/pdf/2103.13751.pdf)**. *Clément Chadebec, Stéphanie Allassonnière*. (MICCAI 2021).
-
----
-
-## 4. Contributing
-
-Contributions are welcome! Please read the [contribution guidelines](CONTRIBUTING.md) first.
-
-If you have any suggestions or find a paper that should be included, please feel free to open an issue or submit a pull request.
